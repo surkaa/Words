@@ -35,16 +35,6 @@ public class WordRepository {
         new ClearAsyncTask(wordDao).execute();
     }
 
-    public void close() {
-        Log.d("switch", "close000000000000000");
-        new CloseAsyncTask(wordDao).execute();
-    }
-
-    public void open() {
-        Log.d("switch", "open1111111111111111");
-        new OpenAsyncTask(wordDao).execute();
-    }
-
     public LiveData<List<Word>> getAll() {
         return list;
     }
@@ -118,34 +108,6 @@ public class WordRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             wordDao.clear();
-            return null;
-        }
-    }
-
-    static class CloseAsyncTask extends AsyncTask<Void, Void, Void> {
-        private final WordDao wordDao;
-
-        CloseAsyncTask(WordDao wordDao) {
-            this.wordDao = wordDao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            wordDao.closeAll();
-            return null;
-        }
-    }
-
-    static class OpenAsyncTask extends AsyncTask<Void, Void, Void> {
-        private final WordDao wordDao;
-
-        OpenAsyncTask(WordDao wordDao) {
-            this.wordDao = wordDao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            wordDao.openAll();
             return null;
         }
     }

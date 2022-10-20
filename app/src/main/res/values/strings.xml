@@ -12,4 +12,6 @@
     <string name="message_menu_sort">按四六级出现次数升序排列</string>
     <string name="message_menu_more">这是二级菜单</string>
     <string name="message_menu_search">Search</string>
+    <string name="message_back_btn">返回</string>
+    <string name="content_description_success">图片:必胜四六级</string>
 </resources>

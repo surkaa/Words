@@ -29,7 +29,7 @@
         android:backgroundTint="#1A191E"
         android:gravity="end"
         app:fabCradleMargin="8dp"
-        app:fabCradleRoundedCornerRadius="50dp"
+        app:fabCradleRoundedCornerRadius="10dp"
         app:fabCradleVerticalOffset="6dp"
         app:hideOnScroll="true">
 
@@ -45,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>

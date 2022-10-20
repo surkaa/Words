@@ -51,6 +51,12 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
         this.list = list;
     }
 
+    public void hand(boolean flag) {
+        for (Word word : list) {
+            word.setClose(flag);
+        }
+    }
+
     @NonNull
     @Override
     public WordHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

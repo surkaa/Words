@@ -17,7 +17,7 @@ import com.surkaa.wordsfortjnu.word.WordRepository;
 public class AddWordActivity extends AppCompatActivity {
 
     private TextInputEditText english, meaning, number;
-    Button submitBtn, addAnotherBtn;
+    Button submitBtn, addAnotherBtn, backBtn;
     WordRepository repository;
 
     @Override
@@ -31,11 +31,24 @@ public class AddWordActivity extends AppCompatActivity {
         initTextInputs();
         initSubmitBtn();
         initAddAnotherBtn();
+        backBtn.setOnClickListener(vil -> backHome());
+    }
+
+    private void backHome() {
+        // 直接返回首页并清空页面堆栈
+        Intent intent = new Intent(this, WordActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
+        // 关闭软键盘
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(english.getWindowToken(), 0);
     }
 
     private void findView() {
         submitBtn = findViewById(R.id.submit_btn);
         addAnotherBtn = findViewById(R.id.add_again_btn);
+        backBtn = findViewById(R.id.back_btn);
         english = findViewById(R.id.edit_english);
         meaning = findViewById(R.id.edit_meaning);
         number = findViewById(R.id.edit_num);
@@ -77,15 +90,7 @@ public class AddWordActivity extends AppCompatActivity {
         submitBtn.setEnabled(false);
         submitBtn.setOnClickListener(v -> {
             saveOneWord();
-            Intent intent = new Intent(this, WordActivity.class);
-
-            // 直接返回首页并清空页面堆栈
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-
-            // 关闭软键盘
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(english.getWindowToken(), 0);
+            backHome();
         });
     }
 

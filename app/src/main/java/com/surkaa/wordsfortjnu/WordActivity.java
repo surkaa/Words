@@ -71,8 +71,7 @@ public class WordActivity extends AppCompatActivity {
                     new Word("people", "n. 人, 人民, 民族, 平民vt. 使住满人, 居住于", 549),
                     new Word("say", "vt. 说, 讲, 念,说明, 指明vi. 说, 讲n. 意见, 发言权", 412),
                     new Word("make", "vt. 制造, 安排,创造, 构成, 使得,产生, 造成, 整理,布置, 引起,到达,进行vi. 开始, 前进,增大, 被制造, 被处理n. 制造, 构造, 性情", 396),
-                    new Word("take", "vt. 拿, 取, 占有, 理解,领会, 行使, 引起, 采取,接受, 容纳, 济贫vt. 采访,视察,播送n. 接人, 绳子vi. 接人, 环绕, 乡下", 189),
-                    new Word("check", "已阅", 0)
+                    new Word("take", "vt. 拿, 取, 占有, 理解,领会, 行使, 引起, 采取,接受, 容纳, 济贫vt. 采访,视察,播送n. 接人, 绳子vi. 接人, 环绕, 乡下", 189)
             );
             editor.apply();
         }
@@ -84,11 +83,9 @@ public class WordActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_search, menu);
 
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-//        int width = getResources().getDisplayMetrics().widthPixels;
-//        searchView.setMaxWidth((int) (width * 0.75));
+        int width = getResources().getDisplayMetrics().widthPixels;
+        searchView.setMaxWidth((int) (width * 0.75));
 
-        // 设置固定长度 800像素
-        searchView.setMaxWidth(800);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -133,12 +130,8 @@ public class WordActivity extends AppCompatActivity {
     private void initSwitch() {
         switch1.setChecked(false);
         switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                repository.close();
-            } else {
-                repository.open();
-            }
-            adapter.submitList(filteredList.getValue());
+            adapter.hand(isChecked);
+            adapter.notifyDataSetChanged();
         });
     }
 
@@ -166,6 +159,8 @@ public class WordActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            // 用于判断是否支持长按拖动
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView,
                                   @NonNull RecyclerView.ViewHolder viewHolder,
@@ -180,8 +175,10 @@ public class WordActivity extends AppCompatActivity {
                 return false;
             }
 
+            // 设置item的滑动删除
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
                 final Word wordToDelete = filteredList.getValue().get(viewHolder.getAdapterPosition());
                 repository.delete(wordToDelete);
                 Snackbar.make(findViewById(R.id.word_layout), "删除了一个词汇", Snackbar.LENGTH_SHORT)

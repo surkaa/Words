@@ -2,5 +2,5 @@
 <resources>
     <dimen name="big_font">24sp</dimen>
     <dimen name="mid_font">18sp</dimen>
-    <dimen name="sma_font">12sp</dimen>
+    <dimen name="sma_font">15sp</dimen>
 </resources>

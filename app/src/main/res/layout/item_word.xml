@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="85dp"
+    android:layout_height="wrap_content"
     android:clickable="true">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
@@ -22,12 +22,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <View
                 android:id="@+id/divider"
                 android:layout_width="2dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="?android:attr/listDivider"
@@ -47,7 +47,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint_layout_for_web"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_mid"
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,13 +105,13 @@
 
                 <TextView
                     android:id="@+id/meaning"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textSize="@dimen/mid_font"
+                    android:textSize="@dimen/sma_font"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/english"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
                     app:layout_constraintTop_toBottomOf="@+id/english"
                     tools:text="英语" />
 
@@ -144,7 +144,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint_layout_other"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline_mid"
@@ -172,7 +172,7 @@
                 <Switch
                     android:id="@+id/switch1"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"

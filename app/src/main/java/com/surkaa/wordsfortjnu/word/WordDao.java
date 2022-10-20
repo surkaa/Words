@@ -23,12 +23,6 @@ public interface WordDao {
     @Query("DELETE FROM word")
     void clear();
 
-    @Query("UPDATE word SET isClose = 1")
-    void closeAll();
-
-    @Query("UPDATE word SET isClose = 0")
-    void openAll();
-
     @Query("SELECT * FROM word ORDER BY id DESC")
     LiveData<List<Word>> getAll();
 
