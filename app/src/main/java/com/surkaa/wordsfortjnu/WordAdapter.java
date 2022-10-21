@@ -51,24 +51,20 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
         this.list = list;
     }
 
-    public void hand(boolean flag) {
-        for (Word word : list) {
-            word.setClose(flag);
-        }
-    }
-
     @NonNull
     @Override
     public WordHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_word, parent, false);
         final WordHolder holder = new WordHolder(view);
-        holder.constraintLayout.setOnClickListener(v -> {
+
+        holder.comeInConstraintLayout.setOnClickListener(v -> {
             if (!holder.aSwitch.isChecked()) {
                 Uri uri = Uri.parse(HTTPS + holder.english.getText());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 holder.itemView.getContext().startActivity(intent);
             }
         });
+
         holder.aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Word word = list.get(holder.getAdapterPosition());
             Log.d("switch", "isChecked = " + word.getId() + ':' + isChecked);
@@ -79,6 +75,7 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
             holder.meaning.setVisibility(isChecked ? View.GONE : View.VISIBLE);
             holder.count.setVisibility(isChecked ? View.INVISIBLE : View.VISIBLE);
         });
+
         holder.chip.setOnClickListener(v -> {
             Word word = list.get(holder.getAdapterPosition());
             word.addCount();
@@ -90,19 +87,25 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull WordHolder holder, int position) {
-        Word word = list.get(position);
+        Word word;
+        try {
+            word = list.get(position);
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("onBindViewHolder", "onBindViewHolder: " + e.getMessage());
+            return;
+        }
         holder.english.setText(word.getEnglish());
         holder.meaning.setText(word.getMeaning());
         holder.cardView.setBackground(getDrawable(holder.itemView.getContext(), word.getCount()));
-        holder.count.setText(word.getCount() > 13 ? "A" : String.valueOf(word.getCount()));
-        holder.num.setText(String.valueOf(word.getNumInExamination()));
+        holder.count.setText(word.getCount() > 12 ? "A" : String.valueOf(word.getCount()));
+        holder.num.setText(word.getNumInExamination() > 0 ? String.valueOf(word.getNumInExamination()) : "");
         holder.aSwitch.setChecked(word.isClose());
     }
 
-    // 根据用户记忆次数返回背景颜色
     @SuppressLint("UseCompatLoadingForDrawables")
     public Drawable getDrawable(Context context, int count) {
-        int[] range = {1, 4, 8, 13};
+        // 根据用户记忆次数返回背景颜色
+        int[] range = {1, 4, 8, 12};
         if (count <= range[0]) {
             return context.getDrawable(R.drawable.shape_white);
         } else if (count <= range[1]) {
@@ -129,22 +132,22 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
         Switch aSwitch;
         CardView cardView;
         ImageView imageView;
-        ConstraintLayout constraintLayout;
+        ConstraintLayout comeInConstraintLayout;
         TextView id, english, meaning, num, count;
 
         public WordHolder(@NonNull View itemView) {
             super(itemView);
             // 获取item的控件
-            chip = itemView.findViewById(R.id.chip);
-            aSwitch = itemView.findViewById(R.id.switch1);
-            cardView = itemView.findViewById(R.id.card_view);
-            imageView = itemView.findViewById(R.id.image_view_come);
-            constraintLayout = itemView.findViewById(R.id.constraint_layout_for_web);
+            num = itemView.findViewById(R.id.num);
             id = itemView.findViewById(R.id.id_no);
+            chip = itemView.findViewById(R.id.chip);
+            count = itemView.findViewById(R.id.count);
+            aSwitch = itemView.findViewById(R.id.switch1);
             english = itemView.findViewById(R.id.english);
             meaning = itemView.findViewById(R.id.meaning);
-            num = itemView.findViewById(R.id.num);
-            count = itemView.findViewById(R.id.count);
+            cardView = itemView.findViewById(R.id.card_view);
+            imageView = itemView.findViewById(R.id.image_view_come);
+            comeInConstraintLayout = itemView.findViewById(R.id.constraint_layout_for_web);
         }
     }
 }

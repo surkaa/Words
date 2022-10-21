@@ -13,12 +13,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/message_add_english_word"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/text_input_layout4"
         app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_weight="0.65"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04">
+        app:layout_constraintTop_toTopOf="@+id/text_input_layout4">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_english"
@@ -49,13 +49,17 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout4"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:hint="@string/message_add_num"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_layout3">
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="0.35"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/text_input_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.03">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_num"
@@ -74,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0.6"
         app:layout_constraintStart_toEndOf="@+id/submit_btn"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_layout4" />
+        app:layout_constraintTop_toBottomOf="@+id/text_input_layout3" />
 
     <Button
         android:id="@+id/submit_btn"
@@ -90,23 +94,11 @@
 
     <Button
         android:id="@+id/back_btn"
-        android:text="@string/message_back_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/message_back_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_again_btn" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_btn"
-        android:src="@drawable/img_add"
-        android:contentDescription="@string/content_description_success"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

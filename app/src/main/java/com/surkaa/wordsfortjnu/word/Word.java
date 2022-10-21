@@ -12,16 +12,16 @@ public class Word {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String english;
-    private String meaning;
+    private final String english;
+    private final String meaning;
 
     private boolean isClose;
     private int count;
-    private int numInExamination;
+    private final int numInExamination;
 
     public Word(String english, String meaning, int numInExamination) {
-        this.count = 0;
-        this.isClose = true;
+        this.count = (int) (Math.random() * 15);
+        this.isClose = Math.random() > 0.5;
         this.english = english;
         this.meaning = meaning;
         this.numInExamination = numInExamination;
@@ -68,16 +68,8 @@ public class Word {
         return english;
     }
 
-    public void setEnglish(String english) {
-        this.english = english;
-    }
-
     public String getMeaning() {
         return meaning;
-    }
-
-    public void setMeaning(String meaning) {
-        this.meaning = meaning;
     }
 
     public boolean isClose() {
@@ -96,15 +88,12 @@ public class Word {
         this.count = count;
     }
 
-    public int addCount() {
-        return ++count;
+    public void addCount() {
+        ++count;
     }
 
     public int getNumInExamination() {
         return numInExamination;
     }
 
-    public void setNumInExamination(int numInExamination) {
-        this.numInExamination = numInExamination;
-    }
 }

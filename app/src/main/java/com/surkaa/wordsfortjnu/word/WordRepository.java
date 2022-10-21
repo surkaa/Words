@@ -2,12 +2,14 @@ package com.surkaa.wordsfortjnu.word;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+/**
+ * @author SurKaa
+ */
 public class WordRepository {
     private final LiveData<List<Word>> list;
     private final WordDao wordDao;
@@ -48,10 +50,6 @@ public class WordRepository {
             str.append(ch).append('%');
         }
         return wordDao.getWordsWithPattern(str.toString());
-    }
-
-    public LiveData<List<Word>> getAllWordsByNumDesc() {
-        return wordDao.getAllWordsByNumDesc();
     }
     //endregion
 

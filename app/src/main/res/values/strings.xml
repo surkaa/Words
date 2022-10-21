@@ -1,17 +1,9 @@
 <resources>
     <string name="app_name">单词本</string>
-    <string name="content_description_menu_clear">清空所有单词</string>
-    <string name="message_add_english_word">English Word</string>
+    <string name="message_add_english_word">英文单词</string>
     <string name="message_add_meaning_word">中文释义</string>
-    <string name="message_add_num">四六级考试中出现的次数 (可选, 默认为0)</string>
+    <string name="message_add_num">次数(选填)</string>
     <string name="message_add_btn_again">再加一个</string>
     <string name="message_add_btn_submit">完成</string>
-    <string name="content_description_come">come on</string>
-    <string name="content_description">添加单词</string>
-    <string name="message_menu_sort_desc">按四六级出现次数降序排列</string>
-    <string name="message_menu_sort">按四六级出现次数升序排列</string>
-    <string name="message_menu_more">这是二级菜单</string>
-    <string name="message_menu_search">Search</string>
     <string name="message_back_btn">返回</string>
-    <string name="content_description_success">图片:必胜四六级</string>
 </resources>

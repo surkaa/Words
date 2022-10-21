@@ -14,9 +14,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.surkaa.wordsfortjnu.word.Word;
 import com.surkaa.wordsfortjnu.word.WordRepository;
 
+import java.util.Objects;
+
 public class AddWordActivity extends AppCompatActivity {
 
-    private TextInputEditText english, meaning, number;
+    TextInputEditText english, meaning, number;
     Button submitBtn, addAnotherBtn, backBtn;
     WordRepository repository;
 
@@ -106,9 +108,9 @@ public class AddWordActivity extends AppCompatActivity {
     }
 
     private void saveOneWord() {
-        String englishStr = english.getText().toString().trim();
-        String meaningStr = meaning.getText().toString().trim();
-        String numberStr = number.getText().toString().trim();
+        String englishStr = Objects.requireNonNull(english.getText()).toString().trim();
+        String meaningStr = Objects.requireNonNull(meaning.getText()).toString().trim();
+        String numberStr = Objects.requireNonNull(number.getText()).toString().trim();
         int numInt = 0;
         if (!numberStr.isEmpty()) {
             numInt = Integer.parseInt(numberStr);
