@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +21,7 @@ public class AddWordActivity extends AppCompatActivity {
 
     TextInputEditText english, meaning, number;
     Button submitBtn, addAnotherBtn, backBtn;
+    ImageView helpBtn;
     WordRepository repository;
 
     @Override
@@ -33,7 +35,15 @@ public class AddWordActivity extends AppCompatActivity {
         initTextInputs();
         initSubmitBtn();
         initAddAnotherBtn();
+        initHelpBtn();
         backBtn.setOnClickListener(vil -> backHome());
+    }
+
+    private void initHelpBtn() {
+        helpBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(AddWordActivity.this, HelpActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void backHome() {
@@ -50,10 +60,11 @@ public class AddWordActivity extends AppCompatActivity {
     private void findView() {
         submitBtn = findViewById(R.id.submit_btn);
         addAnotherBtn = findViewById(R.id.add_again_btn);
-        backBtn = findViewById(R.id.back_btn);
+        backBtn = findViewById(R.id.add_btn_back);
         english = findViewById(R.id.edit_english);
         meaning = findViewById(R.id.edit_meaning);
         number = findViewById(R.id.edit_num);
+        helpBtn = findViewById(R.id.img_btn_add_help);
     }
 
     private void initTextInputs() {

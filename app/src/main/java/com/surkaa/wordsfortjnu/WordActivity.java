@@ -5,6 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -24,9 +29,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.surkaa.wordsfortjnu.WordAdapter.WordHolder;
 import com.surkaa.wordsfortjnu.word.Word;
+import com.surkaa.wordsfortjnu.word.WordAdapter;
+import com.surkaa.wordsfortjnu.word.WordAdapter.WordHolder;
 import com.surkaa.wordsfortjnu.word.WordRepository;
+import com.surkaa.wordsfortjnu.word.myDefaultWords;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,7 +45,7 @@ public class WordActivity extends AppCompatActivity {
 
     FloatingActionButton addBtn;
     LottieAnimationView emptyView;
-    ImageView clearBtn, topBtn, bottomBtn;
+    ImageView clearBtn, topBtn, bottomBtn, helpBtn;
 
     RecyclerView recyclerView;
     WordRepository repository;
@@ -54,11 +61,9 @@ public class WordActivity extends AppCompatActivity {
 
         // 找到控件
         findView();
-
         // 仓库及适配器
         repository = new WordRepository(getApplication());
         adapter = new WordAdapter(repository);
-
         // 设置监听器
         initViewListener();
         // RecyclerView的初始化
@@ -67,8 +72,18 @@ public class WordActivity extends AppCompatActivity {
         initLiveDataList();
 
         // 默认数据的导入: 仅在安装后第一次运行时导入
-        addDefaultWords();
+        addDefaultWordsOnFirst();
 
+    }
+
+    private void addDefaultWordsOnFirst() {
+        SharedPreferences shp = getSharedPreferences("defaultData", Context.MODE_PRIVATE);
+        if (shp.getBoolean("isFirstRun", true)) {
+            new myDefaultWords(this, repository).userFirstRun();
+            SharedPreferences.Editor editor = shp.edit();
+            editor.putBoolean("isFirstRun", false);
+            editor.apply();
+        }
     }
 
     //<editor-fold desc="找到界面控件并设置监听事件">
@@ -76,9 +91,10 @@ public class WordActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         emptyView = findViewById(R.id.empty_state_animation);
         addBtn = findViewById(R.id.add_word);
-        clearBtn = findViewById(R.id.img_btn_clear);
         topBtn = findViewById(R.id.btn_top);
         bottomBtn = findViewById(R.id.btn_bottom);
+        clearBtn = findViewById(R.id.img_btn_clear);
+        helpBtn = findViewById(R.id.img_btn_help);
     }
 
     private void initViewListener() {
@@ -86,6 +102,14 @@ public class WordActivity extends AppCompatActivity {
         initAddBtn();
         initTopBtn();
         initBottomBtn();
+        initHelpBtn();
+    }
+
+    private void initHelpBtn() {
+        helpBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(this, HelpActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initClearBtn() {
@@ -107,7 +131,10 @@ public class WordActivity extends AppCompatActivity {
     }
 
     private void initTopBtn() {
-        topBtn.setOnClickListener(v -> recyclerView.smoothScrollToPosition(0));
+        topBtn.setOnClickListener(v ->
+                // 重新设置适配器可以使RecyclerView重启达到返回顶部的效果
+                recyclerView.setAdapter(adapter)
+        );
     }
 
     private void initBottomBtn() {
@@ -148,75 +175,6 @@ public class WordActivity extends AppCompatActivity {
     }
     //</editor-fold>
 
-    //<editor-fold desc="默认数据的导入">
-    private void addDefaultWords() {
-        SharedPreferences shp = getSharedPreferences("defaultData", Context.MODE_PRIVATE);
-        if (shp.getBoolean("defaultFlag", true)) {
-            SharedPreferences.Editor editor = shp.edit();
-            editor.putBoolean("defaultFlag", false);
-            try {
-                insertDefaultData();
-            } catch (IOException e) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Error");
-                builder.setMessage("Default data insert failed");
-                builder.setPositiveButton("OK", null);
-                builder.show();
-            }
-            editor.apply();
-        }
-    }
-
-    private void insertDefaultData() throws IOException {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("默认数据");
-        builder.setMessage("检测到当前列表为空\n请问您是否需要导入的默认数据?");
-        builder.setPositiveButton("我要四级词汇!", (dialog, which) -> {
-            try {
-                insertCet4();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        builder.setNegativeButton("我要六级词汇!", (dialog, which) -> {
-            try {
-                insertCet6();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        builder.create().show();
-    }
-
-    private void insertCet4() throws IOException {
-        BufferedReader englishReader = new BufferedReader(new InputStreamReader(getAssets().open("cet4/english4.txt")));
-        BufferedReader meaningReader = new BufferedReader(new InputStreamReader(getAssets().open("cet4/meaning4.txt")));
-        BufferedReader numbersReader = new BufferedReader(new InputStreamReader(getAssets().open("cet4/numbers4.txt")));
-        String english, meaning, numbers;
-        while ((english = englishReader.readLine()) != null
-                && (meaning = meaningReader.readLine()) != null
-                && (numbers = numbersReader.readLine()) != null) {
-            Word word = new Word(english, meaning, Integer.parseInt(numbers));
-            repository.insert(word);
-        }
-        Toast.makeText(this, "四级词汇添加成功", Toast.LENGTH_SHORT).show();
-    }
-
-    private void insertCet6() throws IOException {
-        BufferedReader englishReader = new BufferedReader(new InputStreamReader(getAssets().open("cet6/english6.txt")));
-        BufferedReader meaningReader = new BufferedReader(new InputStreamReader(getAssets().open("cet6/meaning6.txt")));
-        BufferedReader numbersReader = new BufferedReader(new InputStreamReader(getAssets().open("cet6/numbers6.txt")));
-        String english, meaning, numbers;
-        while ((english = englishReader.readLine()) != null
-                && (meaning = meaningReader.readLine()) != null
-                && (numbers = numbersReader.readLine()) != null) {
-            Word word = new Word(english, meaning, Integer.parseInt(numbers));
-            repository.insert(word);
-        }
-        Toast.makeText(this, "六级词汇添加成功", Toast.LENGTH_SHORT).show();
-    }
-    //</editor-fold>
-
     private void initRecyclerView() {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -240,6 +198,19 @@ public class WordActivity extends AppCompatActivity {
             }
         });
 
+        // 滑到最底下留出一个空白区域
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                if (parent.getAdapter() != null) {
+                    if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
+                        outRect.bottom = 250;
+                    }
+                }
+            }
+        });
+
         // 优化recyclerView的功能
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN,
@@ -250,21 +221,20 @@ public class WordActivity extends AppCompatActivity {
             public boolean onMove(@NonNull RecyclerView recyclerView,
                                   @NonNull RecyclerView.ViewHolder viewHolder,
                                   @NonNull RecyclerView.ViewHolder target) {
-                int indexFrom = viewHolder.getAdapterPosition();
-                int indexTo = target.getAdapterPosition();
-                Word wordFrom = Objects.requireNonNull(filteredList.getValue()).get(indexFrom);
-                Word wordTo = filteredList.getValue().get(indexTo);
+                Word wordFrom = Objects.requireNonNull(filteredList.getValue()).get(viewHolder.getAdapterPosition());
+                Word wordTo = filteredList.getValue().get(target.getAdapterPosition());
                 int idTemp = wordFrom.getId();
                 wordFrom.setId(wordTo.getId());
                 wordTo.setId(idTemp);
                 repository.update(wordFrom, wordTo);
-                adapter.notifyItemMoved(indexFrom, indexTo);
+                adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return false;
             }
 
+            // 第一个卡片禁止拖动, 以防bug
             @Override
-            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-                // 第一个卡片禁止拖动, 以防bug
+            public int getMovementFlags(@NonNull RecyclerView recyclerView,
+                                        @NonNull RecyclerView.ViewHolder viewHolder) {
                 if (viewHolder.getAdapterPosition() == 0) {
                     return makeMovementFlags(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
                 }
@@ -282,6 +252,39 @@ public class WordActivity extends AppCompatActivity {
                         .setAction("撤销", v -> repository.insert(wordToDelete))
                         .show();
             }
+
+            // 设置item的拖动删除时的图标
+            @Override
+            public void onChildDraw(@NonNull Canvas c,
+                                    @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder,
+                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                Drawable icon = ContextCompat.getDrawable(WordActivity.this, R.drawable.ic_clear);
+                if (icon == null) {
+                    return;
+                }
+                View itemView = viewHolder.itemView;
+                int iconLeft, iconRight, iconTop, iconBottom;
+                int icHeight = icon.getIntrinsicHeight();
+                iconTop = itemView.getTop() + (itemView.getHeight() - icHeight) / 2;
+                iconBottom = iconTop + icon.getIntrinsicHeight();
+                if (dX > 0) {
+                    iconLeft = itemView.getLeft() + 50;
+                    iconRight = iconLeft + icHeight;
+                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+                } else if (dX < 0) {
+                    iconRight = itemView.getRight() - 50;
+                    iconLeft = iconRight - icHeight;
+                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+                } else {
+                    icon.setBounds(0, 0, 0, 0);
+                }
+                icon.setTint(Color.RED);
+                icon.draw(c);
+                icon.setTint(Color.WHITE);
+            }
+
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }

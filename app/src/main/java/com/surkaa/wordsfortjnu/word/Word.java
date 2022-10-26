@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
+/**
+ * @author SurKaa
+ */
 @Entity
 public class Word {
 
@@ -20,8 +23,10 @@ public class Word {
     private final int numInExamination;
 
     public Word(String english, String meaning, int numInExamination) {
-        this.count = (int) (Math.random() * 15);
-        this.isClose = Math.random() > 0.5;
+//        this.count = (int) (Math.random() * 15);
+//        this.isClose = Math.random() > 0.5;
+        this.count = 0;
+        this.isClose = true;
         this.english = english;
         this.meaning = meaning;
         this.numInExamination = numInExamination;
@@ -42,8 +47,12 @@ public class Word {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Word)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Word)) {
+            return false;
+        }
         Word word = (Word) o;
         return isClose == word.isClose && count == word.count
                 && numInExamination == word.numInExamination

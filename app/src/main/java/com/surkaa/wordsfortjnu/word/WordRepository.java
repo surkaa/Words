@@ -42,13 +42,14 @@ public class WordRepository {
     }
 
     public LiveData<List<Word>> getWordsWithPattern(String pattern) {
-        // %表示任意多个字符
+        // %表示任意多个字符 ps: hello
         char[] chars = pattern.toCharArray();
         StringBuilder str = new StringBuilder();
         str.append('%');
         for (char ch : chars) {
             str.append(ch).append('%');
         }
+        // ps: %h%e%l%l%o%
         return wordDao.getWordsWithPattern(str.toString());
     }
     //endregion

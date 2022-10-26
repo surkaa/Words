@@ -9,6 +9,9 @@ import androidx.room.Update;
 
 import java.util.List;
 
+/**
+ * @author SurKaa
+ */
 @Dao
 public interface WordDao {
     @Insert
