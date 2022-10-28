@@ -1,5 +1,5 @@
-# Words
-单词本 Recycler+ListAdapter+Room+BufferedReader
+# 单词本
+技术Recycler ListAdapter Room BufferedReader
 
 ## 介绍
 
