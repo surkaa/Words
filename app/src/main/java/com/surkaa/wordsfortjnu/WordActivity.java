@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,9 +34,6 @@ import com.surkaa.wordsfortjnu.word.WordAdapter.WordHolder;
 import com.surkaa.wordsfortjnu.word.WordRepository;
 import com.surkaa.wordsfortjnu.word.myDefaultWords;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Objects;
 
@@ -148,7 +144,7 @@ public class WordActivity extends AppCompatActivity {
 
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 
-        // 设置搜索框的长度避免label被压缩
+        // 设置搜索框的长度避免Word的label被压缩
         int width = getResources().getDisplayMetrics().widthPixels;
         searchView.setMaxWidth((int) (width * 0.75));
 
@@ -199,7 +195,7 @@ public class WordActivity extends AppCompatActivity {
         });
 
         // 滑到最底下留出一个空白区域
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
@@ -209,14 +205,13 @@ public class WordActivity extends AppCompatActivity {
                     }
                 }
             }
-        });
+        };
 
         // 优化recyclerView的功能
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
-            // 用于支持长按拖动
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView,
                                   @NonNull RecyclerView.ViewHolder viewHolder,
@@ -227,25 +222,27 @@ public class WordActivity extends AppCompatActivity {
                 wordFrom.setId(wordTo.getId());
                 wordTo.setId(idTemp);
                 repository.update(wordFrom, wordTo);
+//                if (viewHolder.getItemViewType() != target.getItemViewType()) { // 不同类型不可移动
+//                    return false
+//                }
                 adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return false;
             }
 
-            // 第一个卡片禁止拖动, 以防bug
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView,
                                         @NonNull RecyclerView.ViewHolder viewHolder) {
+                // 第一个卡片禁止拖动, 以防bug
                 if (viewHolder.getAdapterPosition() == 0) {
                     return makeMovementFlags(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
                 }
                 return super.getMovementFlags(recyclerView, viewHolder);
             }
 
-
-            // 设置item的滑动删除
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
                                  int direction) {
+                // 设置item的滑动删除
                 final Word wordToDelete = Objects.requireNonNull(filteredList.getValue()).get(viewHolder.getAdapterPosition());
                 repository.delete(wordToDelete);
                 Snackbar.make(findViewById(R.id.word_layout), "删除了一个词汇", Snackbar.LENGTH_SHORT)
@@ -253,12 +250,12 @@ public class WordActivity extends AppCompatActivity {
                         .show();
             }
 
-            // 设置item的拖动删除时的图标
             @Override
             public void onChildDraw(@NonNull Canvas c,
                                     @NonNull RecyclerView recyclerView,
                                     @NonNull RecyclerView.ViewHolder viewHolder,
                                     float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                // 设置item的拖动删除时的图标
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 Drawable icon = ContextCompat.getDrawable(WordActivity.this, R.drawable.ic_clear);
                 if (icon == null) {
@@ -284,8 +281,10 @@ public class WordActivity extends AppCompatActivity {
                 icon.draw(c);
                 icon.setTint(Color.WHITE);
             }
-
         });
+
+
+        recyclerView.addItemDecoration(itemDecoration);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 

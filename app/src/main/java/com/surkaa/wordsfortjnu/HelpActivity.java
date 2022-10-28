@@ -33,7 +33,7 @@ public class HelpActivity extends AppCompatActivity {
             startActivity(intent);
         });
         addBtn.setOnClickListener(v -> {
-            repository.clear();
+//            repository.clear();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("添加数据");
             builder.setMessage("请问您需要添加的是四级词汇还是六级词汇?");
