@@ -6,10 +6,8 @@
     <string name="message_add_btn_again">再加一个</string>
     <string name="message_add_btn_submit">完成</string>
     <string name="message_back_btn">返回</string>
-    <string name="message_help_back_btn">我明白了!</string>
+    <string name="message_help_back_btn">返回主页</string>
     <string name="message_help_cet4_btn">我要清空单词列表并添加四级词汇</string>
     <string name="message_help_cet6_btn">我要清空单词列表并添加六级词汇</string>
     <string name="message_help_add_btn">添加四六级单词</string>
-    <string name="message_help_tv1">卡片颜色代表学习时回忆的次数</string>
-    <string name="message_help_tv2">单词右边代表该单词在四级/六级考试中出现的次数</string>
 </resources>
