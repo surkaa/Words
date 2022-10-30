@@ -3,6 +3,7 @@ package com.surkaa.wordsfortjnu.word;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
@@ -103,6 +104,13 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
             Log.d("onBindViewHolder", "onBindViewHolder: " + e.getMessage());
             return;
         }
+
+        SharedPreferences shp = holder.itemView.getContext().getSharedPreferences("default_settings", Context.MODE_PRIVATE);
+        boolean isOffDefault = shp.getBoolean("is_off_word", false);
+        if (isOffDefault) {
+            word.setClose(true);
+        }
+
         holder.english.setText(word.getEnglish());
         holder.meaning.setText(word.getMeaning());
         holder.cardView.setBackground(getDrawable(holder.itemView.getContext(), word.getCount()));
@@ -113,7 +121,7 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
 
     public Drawable getDrawable(Context context, int count) {
         // 根据用户记忆次数返回背景颜色
-        int[] range = {1, 4, 8, 12};
+        int[] range = {0, 2, 5, 8};
         if (count <= range[0]) {
             return AppCompatResources.getDrawable(context, R.drawable.shape_white);
         } else if (count <= range[1]) {

@@ -1,19 +1,23 @@
 package com.surkaa.wordsfortjnu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.surkaa.wordsfortjnu.word.WordRepository;
 import com.surkaa.wordsfortjnu.word.myDefaultWords;
 
 public class HelpActivity extends AppCompatActivity {
 
-    WordRepository repository;
+    SharedPreferences shp;
+    SwitchCompat switchCompat;
     Button backBtn, addBtn;
+    WordRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,8 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
 
         repository = new WordRepository(getApplication());
+
+        shp = getSharedPreferences("default_settings", MODE_PRIVATE);
 
         findView();
         setListener();
@@ -45,9 +51,16 @@ public class HelpActivity extends AppCompatActivity {
             );
             builder.create().show();
         });
+        switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = shp.edit();
+            editor.putBoolean("is_off_word", isChecked);
+            editor.apply();
+        });
     }
 
     private void findView() {
+        switchCompat = findViewById(R.id.help_default_off);
+        switchCompat.setChecked(shp.getBoolean("is_off_word", false));
         backBtn = findViewById(R.id.help_back_btn);
         addBtn = findViewById(R.id.help_add_btn);
     }
