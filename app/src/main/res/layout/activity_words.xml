@@ -33,34 +33,42 @@
         app:fabCradleVerticalOffset="6dp"
         app:hideOnScroll="true">
 
-        <ImageView
+        <TextView
+            android:id="@+id/tv_count_words"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginEnd="16dp"
+            tools:text="4000" />
+
+        <ImageButton
             android:id="@+id/img_btn_clear"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_clear" />
+            android:background="@drawable/ic_clear" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/img_btn_help"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginStart="30dp"
-            android:src="@drawable/ic_help_black" />
+            android:background="@drawable/ic_help_black" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_top"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="end"
             android:layout_marginEnd="30dp"
-            android:src="@drawable/ic_back_top" />
+            android:background="@drawable/ic_back_top" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_bottom"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="end"
             android:layout_marginEnd="30dp"
-            android:src="@drawable/ic_back_bottom" />
+            android:background="@drawable/ic_back_bottom" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

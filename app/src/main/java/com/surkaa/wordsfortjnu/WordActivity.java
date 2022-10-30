@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,7 @@ import java.util.Objects;
 
 public class WordActivity extends AppCompatActivity {
 
+    TextView tvCountWords;
     FloatingActionButton addBtn;
     LottieAnimationView emptyView;
     ImageView clearBtn, topBtn, bottomBtn, helpBtn;
@@ -61,7 +63,7 @@ public class WordActivity extends AppCompatActivity {
         repository = new WordRepository(getApplication());
         adapter = new WordAdapter(repository);
         // 设置监听器
-        initViewListener();
+        initView();
         // RecyclerView的初始化
         initRecyclerView();
         // 数据filteredList的初始化
@@ -84,6 +86,7 @@ public class WordActivity extends AppCompatActivity {
 
     //<editor-fold desc="找到界面控件并设置监听事件">
     private void findView() {
+        tvCountWords = findViewById(R.id.tv_count_words);
         recyclerView = findViewById(R.id.recycler_view);
         emptyView = findViewById(R.id.empty_state_animation);
         addBtn = findViewById(R.id.add_word);
@@ -93,7 +96,8 @@ public class WordActivity extends AppCompatActivity {
         helpBtn = findViewById(R.id.img_btn_help);
     }
 
-    private void initViewListener() {
+    private void initView() {
+        tvCountWords.setText("0");
         initClearBtn();
         initAddBtn();
         initTopBtn();
@@ -222,9 +226,6 @@ public class WordActivity extends AppCompatActivity {
                 wordFrom.setId(wordTo.getId());
                 wordTo.setId(idTemp);
                 repository.update(wordFrom, wordTo);
-//                if (viewHolder.getItemViewType() != target.getItemViewType()) { // 不同类型不可移动
-//                    return false
-//                }
                 adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return false;
             }
@@ -306,6 +307,7 @@ public class WordActivity extends AppCompatActivity {
             if (len != adapter.getItemCount()) {
                 adapter.submitList(words);
             }
+            tvCountWords.setText(String.valueOf(len));
         };
         filteredList = repository.getAll();
         filteredList.observe(this, observer);
