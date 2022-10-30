@@ -14,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DiffUtil;
@@ -110,20 +111,19 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
         holder.aSwitch.setChecked(word.isClose());
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     public Drawable getDrawable(Context context, int count) {
         // 根据用户记忆次数返回背景颜色
         int[] range = {1, 4, 8, 12};
         if (count <= range[0]) {
-            return context.getDrawable(R.drawable.shape_white);
+            return AppCompatResources.getDrawable(context, R.drawable.shape_white);
         } else if (count <= range[1]) {
-            return context.getDrawable(R.drawable.shape_blue);
+            return AppCompatResources.getDrawable(context, R.drawable.shape_blue);
         } else if (count <= range[2]) {
-            return context.getDrawable(R.drawable.shape_green);
+            return AppCompatResources.getDrawable(context, R.drawable.shape_green);
         } else if (count <= range[3]) {
-            return context.getDrawable(R.drawable.shape_yellow);
+            return AppCompatResources.getDrawable(context, R.drawable.shape_yellow);
         } else {
-            return context.getDrawable(R.drawable.shape_purple);
+            return AppCompatResources.getDrawable(context, R.drawable.shape_purple);
         }
     }
 
