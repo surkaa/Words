@@ -12,7 +12,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.surkaa.wordsfortjnu.word.WordRepository;
 import com.surkaa.wordsfortjnu.word.myDefaultWords;
 
-public class HelpActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     SharedPreferences shp;
     SwitchCompat switchCompat;
@@ -44,10 +44,10 @@ public class HelpActivity extends AppCompatActivity {
             builder.setTitle("添加数据");
             builder.setMessage("请问您需要添加的是四级词汇还是六级词汇?");
             builder.setPositiveButton("四级词汇", (dialog, which) ->
-                    new myDefaultWords(HelpActivity.this, repository).userSelectImport(true)
+                    new myDefaultWords(SettingsActivity.this, repository).userSelectImport(true)
             );
             builder.setNegativeButton("六级词汇", (dialog, which) ->
-                    new myDefaultWords(HelpActivity.this, repository).userSelectImport(false)
+                    new myDefaultWords(SettingsActivity.this, repository).userSelectImport(false)
             );
             builder.create().show();
         });

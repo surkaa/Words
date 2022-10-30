@@ -41,7 +41,7 @@ public class AddWordActivity extends AppCompatActivity {
 
     private void initHelpBtn() {
         helpBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(AddWordActivity.this, HelpActivity.class);
+            Intent intent = new Intent(AddWordActivity.this, SettingsActivity.class);
             startActivity(intent);
         });
     }

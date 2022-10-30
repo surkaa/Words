@@ -12,7 +12,8 @@
         android:theme="@style/Theme.WordsForTJNU"
         tools:targetApi="31">
         <activity
-            android:name=".HelpActivity"
+            android:name=".SettingsActivity"
+            android:label="设置"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -22,6 +23,7 @@
         <activity
             android:name=".AddWordActivity"
             android:exported="false"
+            android:label="添加单词"
             android:windowSoftInputMode="stateVisible">
             <meta-data
                 android:name="android.app.lib_name"
