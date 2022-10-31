@@ -11,4 +11,7 @@
     <string name="message_help_cet6_btn">我要清空单词列表并添加六级词汇</string>
     <string name="message_help_add_btn">添加四六级单词</string>
     <string name="message_help_default_off_switch">默认关闭卡片</string>
+    <string name="shp">1</string>
+    <string name="shp_editor_isFirstRun">2</string>
+    <string name="shp_editor_isCloseWord">3</string>
 </resources>

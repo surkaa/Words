@@ -1,6 +1,5 @@
-package com.surkaa.wordsfortjnu;
+package com.surkaa.wordsfortjnu.ui;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.surkaa.wordsfortjnu.R;
 import com.surkaa.wordsfortjnu.word.Word;
 import com.surkaa.wordsfortjnu.word.WordAdapter;
 import com.surkaa.wordsfortjnu.word.WordAdapter.WordHolder;
@@ -46,7 +46,6 @@ public class WordActivity extends AppCompatActivity {
     LiveData<List<Word>> filteredList;
     Observer<List<Word>> observer;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,13 +65,13 @@ public class WordActivity extends AppCompatActivity {
     }
 
     private void addDefaultWordsOnFirst() {
-        SharedPreferences shp = getSharedPreferences("defaultData", Context.MODE_PRIVATE);
-        if (shp.getBoolean("isFirstRun", true)) {
+        SharedPreferences shp = getSharedPreferences(getString(R.string.shp), Context.MODE_PRIVATE);
+        if (shp.getBoolean(getString(R.string.shp_editor_isFirstRun), true)) {
 
             new myDefaultWords(this, repository).userFirstRun();
 
             SharedPreferences.Editor editor = shp.edit();
-            editor.putBoolean("isFirstRun", false);
+            editor.putBoolean(getString(R.string.shp_editor_isFirstRun), false);
             editor.apply();
         }
     }
@@ -295,7 +294,6 @@ public class WordActivity extends AppCompatActivity {
             }
 
             adapter.setList(words);
-            // TODO 考虑是否需要判断!=, 而是直接submitList
             if (len != adapter.getItemCount()) {
                 adapter.submitList(words);
             }

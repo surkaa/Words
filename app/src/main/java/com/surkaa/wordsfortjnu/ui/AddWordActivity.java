@@ -1,4 +1,4 @@
-package com.surkaa.wordsfortjnu;
+package com.surkaa.wordsfortjnu.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.surkaa.wordsfortjnu.R;
 import com.surkaa.wordsfortjnu.word.Word;
 import com.surkaa.wordsfortjnu.word.WordRepository;
 

@@ -12,7 +12,7 @@
         android:theme="@style/Theme.WordsForTJNU"
         tools:targetApi="31">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:label="设置"
             android:exported="false">
             <meta-data
@@ -21,7 +21,7 @@
         </activity>
         <!-- android:windowSoftInputMode="stateVisible"  弹起软键盘 -->
         <activity
-            android:name=".AddWordActivity"
+            android:name=".ui.AddWordActivity"
             android:exported="false"
             android:label="添加单词"
             android:windowSoftInputMode="stateVisible">
@@ -30,7 +30,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".WordActivity"
+            android:name=".ui.WordActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

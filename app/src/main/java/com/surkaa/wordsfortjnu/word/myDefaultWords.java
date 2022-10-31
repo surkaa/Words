@@ -21,7 +21,7 @@ public class myDefaultWords {
 
     public void userFirstRun() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("默认数据");
+        builder.setTitle("添加数据");
         builder.setMessage("检测到当前列表为空\n请问您是否需要导入的默认数据?");
         builder.setPositiveButton("我要四级词汇!", (dialog, which) -> userSelectImport(true));
         builder.setNegativeButton("我要六级词汇!", (dialog, which) -> userSelectImport(false));
@@ -32,8 +32,8 @@ public class myDefaultWords {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("导入数量");
         builder.setMessage("检测到您对某些单词的记忆十分牢固\n是否需要去掉这部分单词(去掉常用单词)");
-        builder.setPositiveButton("我不需要!", (dialog, which) -> insertDefaultWord(isCET4, notRequiredTop, notRequiredBottom));
-        builder.setNegativeButton("不, 我得留着", (dialog, which) -> insertDefaultWord(isCET4, Integer.MAX_VALUE, Integer.MIN_VALUE));
+        builder.setPositiveButton("需要去掉!", (dialog, which) -> insertDefaultWord(isCET4, notRequiredTop, notRequiredBottom));
+        builder.setNegativeButton("不需要", (dialog, which) -> insertDefaultWord(isCET4, Integer.MAX_VALUE, Integer.MIN_VALUE));
         builder.create().show();
     }
 
