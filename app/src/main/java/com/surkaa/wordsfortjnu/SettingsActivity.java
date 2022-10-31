@@ -59,9 +59,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void findView() {
-        switchCompat = findViewById(R.id.help_default_off);
+        switchCompat = findViewById(R.id.settings_default_off);
         switchCompat.setChecked(shp.getBoolean("is_off_word", false));
-        backBtn = findViewById(R.id.help_back_btn);
-        addBtn = findViewById(R.id.help_add_btn);
+        backBtn = findViewById(R.id.settings_back_btn);
+        addBtn = findViewById(R.id.settings_add_btn);
     }
 }

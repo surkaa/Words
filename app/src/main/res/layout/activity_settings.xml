@@ -19,36 +19,36 @@
             android:scaleType="centerInside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/help_default_off"
+            app:layout_constraintTop_toBottomOf="@+id/settings_default_off"
             app:srcCompat="@drawable/img_help" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/help_default_off"
+            android:id="@+id/settings_default_off"
             android:text="@string/message_help_default_off_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/help_back_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/settings_back_btn" />
 
         <Button
-            android:id="@+id/help_add_btn"
+            android:id="@+id/settings_add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/message_help_add_btn"
-            app:layout_constraintEnd_toStartOf="@+id/help_back_btn"
+            app:layout_constraintEnd_toStartOf="@+id/settings_back_btn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/help_back_btn"
+            android:id="@+id/settings_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/message_help_back_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/help_add_btn"
+            app:layout_constraintStart_toEndOf="@+id/settings_add_btn"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
