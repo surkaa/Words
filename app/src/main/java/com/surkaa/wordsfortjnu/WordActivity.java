@@ -12,7 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -40,11 +40,6 @@ import java.util.Objects;
 
 public class WordActivity extends AppCompatActivity {
 
-    TextView tvCountWords;
-    FloatingActionButton addBtn;
-    LottieAnimationView emptyView;
-    ImageView clearBtn, topBtn, bottomBtn, helpBtn;
-
     RecyclerView recyclerView;
     WordRepository repository;
     WordAdapter adapter;
@@ -57,27 +52,25 @@ public class WordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_words);
 
-        // 找到控件
-        findView();
+        // 找到控件 设置监听器
+        initView();
         // 仓库及适配器
         repository = new WordRepository(getApplication());
         adapter = new WordAdapter(repository);
-        // 设置监听器
-        initView();
         // RecyclerView的初始化
         initRecyclerView();
         // 数据filteredList的初始化
         initLiveDataList();
-
         // 默认数据的导入: 仅在安装后第一次运行时导入
         addDefaultWordsOnFirst();
-
     }
 
     private void addDefaultWordsOnFirst() {
         SharedPreferences shp = getSharedPreferences("defaultData", Context.MODE_PRIVATE);
         if (shp.getBoolean("isFirstRun", true)) {
+
             new myDefaultWords(this, repository).userFirstRun();
+
             SharedPreferences.Editor editor = shp.edit();
             editor.putBoolean("isFirstRun", false);
             editor.apply();
@@ -85,19 +78,7 @@ public class WordActivity extends AppCompatActivity {
     }
 
     //<editor-fold desc="找到界面控件并设置监听事件">
-    private void findView() {
-        tvCountWords = findViewById(R.id.tv_count_words);
-        recyclerView = findViewById(R.id.recycler_view);
-        emptyView = findViewById(R.id.empty_state_animation);
-        addBtn = findViewById(R.id.add_word);
-        topBtn = findViewById(R.id.btn_top);
-        bottomBtn = findViewById(R.id.btn_bottom);
-        clearBtn = findViewById(R.id.img_btn_clear);
-        helpBtn = findViewById(R.id.img_btn_help);
-    }
-
     private void initView() {
-        tvCountWords.setText("0");
         initClearBtn();
         initAddBtn();
         initTopBtn();
@@ -106,6 +87,7 @@ public class WordActivity extends AppCompatActivity {
     }
 
     private void initHelpBtn() {
+        ImageButton helpBtn = findViewById(R.id.img_btn_help);
         helpBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
@@ -113,6 +95,7 @@ public class WordActivity extends AppCompatActivity {
     }
 
     private void initClearBtn() {
+        ImageButton clearBtn = findViewById(R.id.img_btn_clear);
         clearBtn.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(WordActivity.this);
             builder.setTitle("确认清除所有单词吗？");
@@ -124,6 +107,8 @@ public class WordActivity extends AppCompatActivity {
     }
 
     private void initAddBtn() {
+        FloatingActionButton addBtn;
+        addBtn = findViewById(R.id.add_word);
         addBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddWordActivity.class);
             startActivity(intent);
@@ -131,6 +116,7 @@ public class WordActivity extends AppCompatActivity {
     }
 
     private void initTopBtn() {
+        ImageButton topBtn = findViewById(R.id.btn_top);
         topBtn.setOnClickListener(v ->
                 // 重新设置适配器可以使RecyclerView重启达到返回顶部的效果
                 recyclerView.setAdapter(adapter)
@@ -138,7 +124,10 @@ public class WordActivity extends AppCompatActivity {
     }
 
     private void initBottomBtn() {
-        bottomBtn.setOnClickListener(v -> recyclerView.smoothScrollToPosition(Math.max(adapter.getItemCount() - 1, 0)));
+        ImageButton bottomBtn = findViewById(R.id.btn_bottom);
+        bottomBtn.setOnClickListener(v ->
+                recyclerView.smoothScrollToPosition(Math.max(adapter.getItemCount() - 1, 0))
+        );
     }
 
     @Override
@@ -176,6 +165,7 @@ public class WordActivity extends AppCompatActivity {
     //</editor-fold>
 
     private void initRecyclerView() {
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -292,6 +282,8 @@ public class WordActivity extends AppCompatActivity {
     private void initLiveDataList() {
         observer = words -> {
             int len = words.size();
+            LottieAnimationView emptyView;
+            emptyView = findViewById(R.id.empty_state_animation);
             if (len != 0) {
                 // 暂停并隐藏
                 emptyView.pauseAnimation();
@@ -307,6 +299,7 @@ public class WordActivity extends AppCompatActivity {
             if (len != adapter.getItemCount()) {
                 adapter.submitList(words);
             }
+            TextView tvCountWords = findViewById(R.id.tv_count_words);
             tvCountWords.setText(String.valueOf(len));
         };
         filteredList = repository.getAll();
