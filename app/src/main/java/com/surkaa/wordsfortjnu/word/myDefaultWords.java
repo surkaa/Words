@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class myDefaultWords {
-    static final int notRequiredTop = 25;
+    static final int notRequiredTop = 17;
     static final int notRequiredBottom = 0;
     Context context;
     WordRepository repository;
