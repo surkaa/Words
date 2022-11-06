@@ -38,14 +38,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // room
-    implementation 'androidx.room:room-runtime:2.3.0'
-    annotationProcessor 'androidx.room:room-compiler:2.3.0'
+    implementation 'androidx.room:room-runtime:2.4.3'
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
 
     // LottieAnimationView
     implementation 'com.airbnb.android:lottie:3.7.1'
 
     // TextInputEditText
-    implementation 'com.google.android.material:material:1.5.0-alpha03'
+    implementation 'com.google.android.material:material:1.6.0-beta01'
 
     // FileReader
     implementation 'commons-io:commons-io:2.10.0'
