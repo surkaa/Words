@@ -1,5 +1,5 @@
 # 单词本
-技术Recycler ListAdapter Room BufferedReader
+技术RecyclerView + ListAdapter + Room + BufferedReader
 
 ## 介绍
 
