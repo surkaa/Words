@@ -55,7 +55,7 @@ public class WordActivity extends AppCompatActivity {
         initView();
         // 仓库及适配器
         repository = new WordRepository(getApplication());
-        adapter = new WordAdapter(repository);
+        adapter = new WordAdapter(repository, this);
         // RecyclerView的初始化
         initRecyclerView();
         // 数据filteredList的初始化

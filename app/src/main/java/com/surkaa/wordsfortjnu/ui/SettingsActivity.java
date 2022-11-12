@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
         initBackBtn();
         initAddBtn();
         initSwitch();
+        initRadioGroup();
     }
 
     private void initBackBtn() {
@@ -70,5 +72,18 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putBoolean(getString(R.string.shp_editor_defaultCloseWord), isChecked);
             editor.apply();
         });
+    }
+
+    private void initRadioGroup() {
+        RadioGroup radioGroup = findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            SharedPreferences.Editor editor = shp.edit();
+            editor.putInt(getString(R.string.shp_editor_defaultUseHttps), checkedId);
+            editor.apply();
+        });
+
+        // 根据shp设置默认选中radio
+        int id = shp.getInt(getString(R.string.shp_editor_defaultUseHttps), R.id.radioButton_niujin);
+        radioGroup.check(id);
     }
 }

@@ -5,13 +5,17 @@
     <string name="message_add_num">次数(选填)</string>
     <string name="message_add_btn_again">再加一个</string>
     <string name="message_add_btn_submit">完成</string>
-    <string name="message_back_btn">返回</string>
+    <string name="message_add_back_btn">返回</string>
     <string name="message_help_back_btn">返回主页</string>
     <string name="message_help_cet4_btn">我要清空单词列表并添加四级词汇</string>
     <string name="message_help_cet6_btn">我要清空单词列表并添加六级词汇</string>
     <string name="message_help_add_btn">添加四六级单词</string>
     <string name="message_help_default_off_switch">默认关闭卡片</string>
+    <string name="message_setting_use_niujin">使用牛津词典</string>
+    <string name="message_setting_use_youdao">使用有道词典</string>
     <string name="shp">1</string>
     <string name="shp_editor_isFirstRun">2</string>
-    <string name="shp_editor_isCloseWord">3</string>
+    <string name="shp_editor_defaultCloseWord">3</string>
+    <string name="shp_editor_defaultUseHttps">4</string>
+    <string name="contentDescription_instructions">使用说明</string>
 </resources>

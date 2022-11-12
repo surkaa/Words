@@ -1,5 +1,7 @@
 package com.surkaa.wordsfortjnu.word;
 
+import static com.surkaa.wordsfortjnu.R.*;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DiffUtil;
@@ -31,9 +34,12 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
 
     private final WordRepository wordRepository;
     private List<Word> list;
-    final static String HTTPS = "https://m.youdao.com/dict?le=eng&q=";
+    private final SharedPreferences shp;
+    private final Context context;
+    final static String HTTPS_YouDao = "https://m.youdao.com/dict?le=eng&q=";
+    final static String HTTPS_NiuJin = "https://www.oxfordlearnersdictionaries.com/definition/english/";
 
-    public WordAdapter(WordRepository wordRepository) {
+    public WordAdapter(WordRepository wordRepository, Context c) {
         super(new DiffUtil.ItemCallback<Word>() {
             @Override
             public boolean areItemsTheSame(@NonNull Word oldItem, @NonNull Word newItem) {
@@ -46,6 +52,8 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
             }
         });
         this.wordRepository = wordRepository;
+        this.context = c;
+        shp = context.getSharedPreferences(context.getString(string.shp), Context.MODE_PRIVATE);
     }
 
     public void setList(List<Word> list) {
@@ -55,12 +63,12 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
     @NonNull
     @Override
     public WordHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_word, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(layout.item_word, parent, false);
         final WordHolder holder = new WordHolder(view);
 
         holder.comeInConstraintLayout.setOnClickListener(v -> {
             if (!holder.aSwitch.isChecked()) {
-                Uri uri = Uri.parse(HTTPS + holder.english.getText());
+                Uri uri = Uri.parse(getHttps() + holder.english.getText());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 holder.itemView.getContext().startActivity(intent);
             }
@@ -95,18 +103,28 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
         return holder;
     }
 
+    @SuppressLint("NonConstantResourceId")
+    private String getHttps() {
+        int defaultId = shp.getInt(context.getString(string.shp_editor_defaultUseHttps), 0);
+        switch (defaultId) {
+            case R.id.radioButton_youdao:
+                return HTTPS_YouDao;
+            case R.id.radioButton_niujin:
+                return HTTPS_NiuJin;
+        }
+        return HTTPS_NiuJin;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull WordHolder holder, int position) {
         Word word;
         try {
             word = list.get(position);
         } catch (IndexOutOfBoundsException e) {
-            Log.d("onBindViewHolder", "onBindViewHolder: " + e.getMessage());
             return;
         }
 
-        SharedPreferences shp = holder.itemView.getContext().getSharedPreferences("default_settings", Context.MODE_PRIVATE);
-        boolean isOffDefault = shp.getBoolean("is_off_word", false);
+        boolean isOffDefault = shp.getBoolean(context.getString(string.shp_editor_defaultCloseWord), false);
         if (isOffDefault) {
             word.setClose(true);
         }
@@ -123,15 +141,15 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
         // 根据用户记忆次数返回背景颜色
         int[] range = {0, 2, 5, 8};
         if (count <= range[0]) {
-            return AppCompatResources.getDrawable(context, R.drawable.shape_white);
+            return AppCompatResources.getDrawable(context, drawable.shape_white);
         } else if (count <= range[1]) {
-            return AppCompatResources.getDrawable(context, R.drawable.shape_blue);
+            return AppCompatResources.getDrawable(context, drawable.shape_blue);
         } else if (count <= range[2]) {
-            return AppCompatResources.getDrawable(context, R.drawable.shape_green);
+            return AppCompatResources.getDrawable(context, drawable.shape_green);
         } else if (count <= range[3]) {
-            return AppCompatResources.getDrawable(context, R.drawable.shape_yellow);
+            return AppCompatResources.getDrawable(context, drawable.shape_yellow);
         } else {
-            return AppCompatResources.getDrawable(context, R.drawable.shape_purple);
+            return AppCompatResources.getDrawable(context, drawable.shape_purple);
         }
     }
 
@@ -144,8 +162,7 @@ public class WordAdapter extends ListAdapter<Word, WordAdapter.WordHolder> {
 
     public static class WordHolder extends RecyclerView.ViewHolder {
         Chip chip;
-        @SuppressLint("UseSwitchCompatOrMaterialCode")
-        Switch aSwitch;
+        SwitchCompat aSwitch;
         CardView cardView;
         ImageView imageView;
         ConstraintLayout comeInConstraintLayout;
