@@ -71,7 +71,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="5856" />
 
                 <TextView
                     android:id="@+id/english"
@@ -86,7 +87,8 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline5"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/guideline4"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="english" />
 
                 <TextView
                     android:id="@+id/meaning"
@@ -97,7 +99,8 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/guideline4"
-                    app:layout_constraintTop_toBottomOf="@+id/english" />
+                    app:layout_constraintTop_toBottomOf="@+id/english"
+                    tools:text="中文" />
 
                 <TextView
                     android:id="@+id/num"
@@ -110,7 +113,8 @@
                     app:layout_constraintEnd_toEndOf="@id/guideline5"
                     app:layout_constraintStart_toStartOf="@id/guideline6"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.38" />
+                    app:layout_constraintVertical_bias="0.38"
+                    tools:text="999" />
 
                 <ImageView
                     android:id="@+id/image_view_come"
@@ -163,7 +167,8 @@
                     app:layout_constraintEnd_toStartOf="@+id/chip"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="8" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

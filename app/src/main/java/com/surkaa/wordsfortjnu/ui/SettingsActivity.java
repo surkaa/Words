@@ -16,8 +16,6 @@ import com.surkaa.wordsfortjnu.word.myDefaultWords;
 public class SettingsActivity extends AppCompatActivity {
 
     SharedPreferences shp;
-    SwitchCompat switchCompat;
-    Button backBtn, addBtn;
     WordRepository repository;
 
     @Override
@@ -29,17 +27,26 @@ public class SettingsActivity extends AppCompatActivity {
 
         shp = getSharedPreferences(getString(R.string.shp), MODE_PRIVATE);
 
-        findView();
         initView();
     }
 
     private void initView() {
+        initBackBtn();
+        initAddBtn();
+        initSwitch();
+    }
+
+    private void initBackBtn() {
+        Button backBtn = findViewById(R.id.settings_back_btn);
         backBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, WordActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
+    }
 
+    private void initAddBtn() {
+        Button addBtn = findViewById(R.id.settings_add_btn);
         addBtn.setOnClickListener(v -> {
 //            repository.clear();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -53,18 +60,15 @@ public class SettingsActivity extends AppCompatActivity {
             );
             builder.create().show();
         });
-
-        switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = shp.edit();
-            editor.putBoolean(getString(R.string.shp_editor_isCloseWord), isChecked);
-            editor.apply();
-        });
     }
 
-    private void findView() {
-        switchCompat = findViewById(R.id.settings_default_off);
-        switchCompat.setChecked(shp.getBoolean(getString(R.string.shp_editor_isCloseWord), false));
-        backBtn = findViewById(R.id.settings_back_btn);
-        addBtn = findViewById(R.id.settings_add_btn);
+    private void initSwitch() {
+        SwitchCompat switchCompat = findViewById(R.id.settings_default_off);
+        switchCompat.setChecked(shp.getBoolean(getString(R.string.shp_editor_defaultCloseWord), false));
+        switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = shp.edit();
+            editor.putBoolean(getString(R.string.shp_editor_defaultCloseWord), isChecked);
+            editor.apply();
+        });
     }
 }
